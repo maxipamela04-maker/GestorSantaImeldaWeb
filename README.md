@@ -10,6 +10,7 @@ El flujo interactivo de la maqueta simula los casos de uso descritos en la toma 
 
 1. **Pantalla de Acceso (`/prototipo/login.html` o `login.jsp`)**: 
    * Formulario de ingreso que valida las credenciales de los usuarios.Dependiendo del rol del usuario, permite acceder a las distintas interfaces (la del administrador que aprueba o rechaza y la del trabajador que solicita el permiso o vacaciones)
+   * los usuarios y contraseñas que estan dados de alta son estos: este es para el area administrativa "dra.hilda" contraseña:Admin1234 y este para el area del trabajador "jradiologol" contraseña:Emp1234
 2. **Dashboard del Empleado (`/prototipo/dashboard_empleado.html`)**:
    * Panel principal dirigido a radiólogos, técnicos, enfermeros, medicos y personal de limpieza. Permite visualizar sus días de vacaciones disponibles y el estado de sus solicitudes.
 3. **Formulario de Solicitud (`/prototipo/solicitud.html`)**:
