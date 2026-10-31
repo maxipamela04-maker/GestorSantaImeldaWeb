@@ -5,18 +5,32 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Gestiona la conexión a MySQL mediante el patrón Singleton.
+ * Gestiona la conexión a MySQL.
+ * Lee la configuración de variables de entorno (para la nube).
+ * Si no existen, usa valores locales por defecto.
  */
 public class DBConnection {
 
-    private static final String URL  = 
-        "jdbc:mysql://localhost:3306/vacaciones_santa_imelda" +
-        "?useUnicode=true&characterEncoding=utf8" +
-        "&useSSL=false&serverTimezone=America/Mexico_City";
+    private static String env(String key, String def) {
+        String v = System.getenv(key);
+        return (v == null || v.isEmpty()) ? def : v;
+    }
 
-    // Modifica root/root si tus credenciales locales de MySQL cambian
-    private static final String USER = "root";   
-    private static final String PASS = "luna030409";   
+    private static final String HOST = env("DB_HOST", "localhost");
+    private static final String PORT = env("DB_PORT", "3306");
+    private static final String NAME = env("DB_NAME", "vacaciones_santa_imelda");
+    private static final String USER = env("DB_USER", "root");
+    private static final String PASS = env("DB_PASSWORD", "");
+    // En la nube (Aiven) se requiere SSL: DB_SSL=true
+    private static final boolean SSL = Boolean.parseBoolean(env("DB_SSL", "false"));
+
+    private static final String URL =
+        "jdbc:mysql://" + HOST + ":" + PORT + "/" + NAME +
+        "?useUnicode=true&characterEncoding=utf8" +
+        "&useSSL=" + SSL +
+        (SSL ? "&requireSSL=true&verifyServerCertificate=false" : "") +
+        "&allowPublicKeyRetrieval=true" +
+        "&serverTimezone=America/Mexico_City";
 
     static {
         try {
